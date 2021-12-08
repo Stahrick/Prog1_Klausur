@@ -116,11 +116,12 @@ int main(int argc, char*argv[])
         student.matrikel_nr = 1001;
 
         //Reserviere Speicherplatz für namens_typ und setze werte
-        struct namens_typ *stud_name = malloc(sizeof(struct namens_typ));
-        stud_name->vorname_ptr = strdup("Eva");
-        stud_name->nachname_ptr = strdup("Meier");
+        //struct namens_typ *stud_name = malloc(sizeof(struct namens_typ));
+        struct namens_typ stud_name;
+        stud_name.vorname_ptr = strdup("Eva");
+        stud_name.nachname_ptr = strdup("Meier");
 
-        student.name = *stud_name;
+        student.name = stud_name;
 
 
 		// bsearch() aufrufen
@@ -131,9 +132,9 @@ int main(int argc, char*argv[])
         //bsearch verwendet
         ergebnis_ptr = bsearch(&student, studenten_feld, studenten_feld_n
                 , sizeof(studenten_feld[0]), vgl_fkt_kurs_nachname_vorname);
-        free(stud_name->nachname_ptr);
+        /*free(stud_name->nachname_ptr);
         free(stud_name->vorname_ptr);
-        free(stud_name);
+        free(stud_name); */
 
         // Suchergebnis auswerten
 		// Aufgabe 1.5

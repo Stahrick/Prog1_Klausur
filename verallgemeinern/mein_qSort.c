@@ -66,7 +66,7 @@ void mein_zerlegen(void *teil_feld_ptr, size_t member_size, int num_member, int 
         printf(" ");
     for (i=startLinks; i <= startRechts; i++) {
         void *elem = calc_eff_addr_void_arr(teil_feld_ptr, i, member_size, num_member);
-        printf("%i ", *((int *)elem));
+        printf("%i ", *((int*)elem));
     }
     printf("\n");
     /* Jetzt beide Teilfelder rekursiv gleich behandeln (3)*/

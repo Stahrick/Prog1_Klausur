@@ -12,7 +12,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "verallgemeinern01.h"
+#include "mein_qSort.h"
 
 // Prototypen
 void zerlege(int teil_feld [], int startLinks, int startRechts);
@@ -30,8 +30,10 @@ int main(int argc, char*argv[])
 {
 	// Feld mit zu sortierenden Ganzzahlen
 	int feld[] = { 7, 3, 8, 6, 9, 1, 2, 4 };
+    double feld_doub[] = {7.77, 8.12, 2.00, 5.728, 1.5, 5.78, 1.11, 0.003};
 	// Anzahl der Feldelemente
 	int feld_n = sizeof(feld)/sizeof(feld[0]);
+    int feld_doub_n = sizeof(feld_doub)/sizeof(feld_doub[0]);
 	// Laufvariable
 	int index;
 
@@ -47,6 +49,7 @@ int main(int argc, char*argv[])
         quickSort(feld, feld_n);
     }else{
         mein_qSort(feld, feld_n, sizeof(*feld), vgl_fkt_int_ptr_aufsteigend);
+        //mein_qSort(feld_doub, feld_doub_n, sizeof(*feld_doub), vgl_fkt_double_ptr_aufsteigend);
     }
 	printf("\n");
 	
@@ -128,7 +131,8 @@ int vgl_fkt_double_ptr_aufsteigend(const void *wert1_ptr, const void *wert2_ptr)
     double wert1 = *((double*)wert1_ptr);
     double wert2 = *((double*)wert2_ptr);
 
-    return wert1 - wert2;
+    //Basierend auf Funktion comparison_fn_t
+    return (wert1 > wert2) - (wert1 < wert2);
 }
 
 
