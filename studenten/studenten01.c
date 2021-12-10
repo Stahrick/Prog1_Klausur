@@ -6,6 +6,7 @@
  * Mein Name:
  *
  */
+
 // System-Header-Dateien
 #define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
@@ -115,9 +116,10 @@ int main(int argc, char*argv[])
         //Initialisiere vollständigkeitshalber auch matr_nr auch wenn nicht von vgl benötigt
         student.matrikel_nr = 1001;
 
-        //Reserviere Speicherplatz für namens_typ und setze werte
-        //struct namens_typ *stud_name = malloc(sizeof(struct namens_typ));
+        //Setze Werte für namens_typ
         struct namens_typ stud_name;
+        //memset ist hierbei nicht notwendig, da wir die beiden Speicherbereiche vorname_ptr und
+        //nachname_ptr nach dem deklarieren direkt durch die strdup pointer beschreiben.
         stud_name.vorname_ptr = strdup("Eva");
         stud_name.nachname_ptr = strdup("Meier");
 
@@ -132,9 +134,6 @@ int main(int argc, char*argv[])
         //bsearch verwendet
         ergebnis_ptr = bsearch(&student, studenten_feld, studenten_feld_n
                 , sizeof(studenten_feld[0]), vgl_fkt_kurs_nachname_vorname);
-        /*free(stud_name->nachname_ptr);
-        free(stud_name->vorname_ptr);
-        free(stud_name); */
 
         // Suchergebnis auswerten
 		// Aufgabe 1.5
@@ -219,7 +218,8 @@ int main(int argc, char*argv[])
 
 	}
 
-    //HEAP Speicher säubern
+    //Aufgabe 1.12
+    //Reservierten Heap Speicher wieder freigeben
     free_student_arr(studenten_feld_2ptr, studenten_feld_n);
     free(studenten_feld_2ptr);
 
@@ -334,12 +334,18 @@ void studenten_feld_ausgeben(struct studenten_typ *feld, int feld_n, void (*ausg
 struct studenten_typ* kopiere_studenten_auf_heap(struct studenten_typ student)
 {
     struct studenten_typ *student_heap = (struct studenten_typ*) malloc(sizeof(student));
-    struct namens_typ name;
-    //struct namens_typ *name_heap = (struct namens_typ*) malloc(sizeof(student.name));
+    //Ein Aufruf von malloc für namens_typ ist hier nicht mehr notwendig, da bereits mit
+    //malloc für student_heap auch Speicher für namens_typ reserivert wurde.
     if(student_heap == NULL) {
-        perror("Speicherplatz auf heap reicht nicht zum kopieren des studentens aus.\n");
+        //Hier Ausnahmsweise fprintf statt perror verwendet um Aufgabenstellung zu entsprechen
+        //perror erlaubt nämlich keine Parameter wie __FILE__
+        fprintf(stderr, "Speicherplatz auf heap reicht nicht aus!"
+                        "Student konnte nicht auf Heap kopiert werden."
+                        "Datei %s, Zeile %d, Version %s %s\n",
+                __FILE__, __LINE__, __DATE__, __TIME__);
         exit(EXIT_FAILURE);
     }
+    struct namens_typ name = student_heap->name;
 
     student_heap->matrikel_nr = student.matrikel_nr;
     strcpy(student_heap->kurs, student.kurs);

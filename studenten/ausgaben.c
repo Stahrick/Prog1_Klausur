@@ -1,7 +1,13 @@
-//
-// Created by Peddy on 05.12.2021.
-//
+/**
+ * TINF21CS1, Programmieraufgabe
+ * 1. Semester
+ *
+ * Meine Matrikelnummer:
+ * Mein Name:
+ *
+ */
 
+//Eigene Header
 #include "ausgaben.h"
 
 
